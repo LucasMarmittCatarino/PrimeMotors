@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import MainHeaderLogo from '~/assets/MainLogo.png';
 import {
     HeaderContainer,
-    HeaderLabels
+    HeaderLabels,
+    Logo,
 } from "./styles";
 
 const MainHeader = () => {
@@ -30,10 +32,11 @@ const MainHeader = () => {
 
     return (
         <HeaderContainer solid={solid} visible={visible}>
-            <HeaderLabels>Racing</HeaderLabels>
-            <HeaderLabels>Sport Cars</HeaderLabels>
-            <HeaderLabels>Collections</HeaderLabels>
-            <HeaderLabels>Experiences</HeaderLabels>
+            <Logo src={MainHeaderLogo} alt="LuxDrive Logo" />
+            <HeaderLabels>HOME</HeaderLabels>
+            <HeaderLabels>LUXO</HeaderLabels>
+            <HeaderLabels>CORRIDA</HeaderLabels>
+            <HeaderLabels>SOBRE NÓS</HeaderLabels>
         </HeaderContainer>
     );
 }
