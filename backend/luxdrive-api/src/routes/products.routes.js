@@ -5,10 +5,7 @@ const { validateProductPayload } = require('../validators/product.validator');
 
 const router = Router();
 
-/**
- * GET /products?q=termo
- * Busca por nome ou por preço/quantidade (match numérico exato ao digitar número).
- */
+// GET /products?q=termo
 router.get('/', (req, res) => {
   const { q } = req.query;
   const db = readDb();
@@ -27,7 +24,7 @@ router.get('/', (req, res) => {
   res.json(items);
 });
 
-/** POST /products */
+// POST /products
 router.post('/', (req, res) => {
   const errors = validateProductPayload(req.body);
   if (errors.length) return res.status(400).json({ errors });
@@ -44,7 +41,7 @@ router.post('/', (req, res) => {
   res.status(201).json(product);
 });
 
-/** PUT /products/:id */
+// PUT /products/:id
 router.put('/:id', (req, res) => {
   const errors = validateProductPayload(req.body, { partial: true });
   if (errors.length) return res.status(400).json({ errors });
@@ -58,7 +55,7 @@ router.put('/:id', (req, res) => {
   res.json(db.products[idx]);
 });
 
-/** DELETE /products/:id */
+// DELETE /products/:id
 router.delete('/:id', (req, res) => {
   const db = readDb();
   const prevLen = db.products.length;

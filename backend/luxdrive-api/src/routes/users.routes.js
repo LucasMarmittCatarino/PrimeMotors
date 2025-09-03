@@ -7,14 +7,14 @@ const { omit } = require('../utils/sanitize');
 
 const router = Router();
 
-/** GET /users (não retorna o hash da senha) */
+// GET /users
 router.get('/', (req, res) => {
   const db = readDb();
   const safe = db.users.map((u) => omit(u, ['passwordHash']));
   res.json(safe);
 });
 
-/** POST /users */
+// POST /users
 router.post('/', async (req, res) => {
   const errors = validateUserPayload(req.body);
   if (errors.length) return res.status(400).json({ errors });
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
   res.status(201).json(omit(user, ['passwordHash']));
 });
 
-/** PUT /users/:id */
+// PUT /users/:id
 router.put('/:id', async (req, res) => {
   const errors = validateUserPayload(req.body, { partial: true });
   if (errors.length) return res.status(400).json({ errors });
@@ -55,7 +55,7 @@ router.put('/:id', async (req, res) => {
   res.json(omit(db.users[idx], ['passwordHash']));
 });
 
-/** DELETE /users/:id */
+// DELETE /users/:id 
 router.delete('/:id', (req, res) => {
   const db = readDb();
   const prevLen = db.users.length;
