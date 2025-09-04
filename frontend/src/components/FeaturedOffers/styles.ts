@@ -35,7 +35,7 @@ export const TextContainer = styled.div`
 export const TextLabel = styled.h1`
   font-family: 'Ferrari Sans', sans-serif;
   font-weight: 700;
-  font-size: 2 rem;
+  font-size: 2rem; /* fix */
   letter-spacing: 2px;
   margin-bottom: 1rem;
 `;
@@ -43,16 +43,20 @@ export const TextLabel = styled.h1`
 export const TextDescription = styled.p`
   font-family: 'Ferrari Sans', sans-serif;
   font-weight: 300;
-  font-size: 1 rem;
+  font-size: 1rem; /* fix */
   line-height: 1.6;
   margin-bottom: 2rem;
 `;
 
-export const SeeMoreContainer = styled.div`
+export const SeeMoreButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
 `;
 
 export const SeeMoreText = styled.p`
@@ -64,7 +68,7 @@ export const SeeMoreText = styled.p`
 `;
 
 export const SeeMoreIcon = styled(LiaChevronCircleRightSolid).attrs({
-    size: 20,
+  size: 20,
 })`
   color: #c00;
   margin-top: 2px;
@@ -91,7 +95,6 @@ export const ArrowButton = styled.button`
     color: #c00;
   }
 `;
-
 
 export const Indicators = styled.div`
   margin-top: 1.5rem;

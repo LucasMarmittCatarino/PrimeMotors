@@ -10,7 +10,7 @@ import {
     TextContainer,
     TextLabel,
     TextDescription,
-    SeeMoreContainer,
+    SeeMoreButton,
     SeeMoreText,
     SeeMoreIcon,
     ImageOutlet,
@@ -50,7 +50,6 @@ const FeaturedOffers = () => {
 
   return (
     <Wrapper>
-      {/* Wrapper do slide com setas ao lado */}
       <SlideWrapper>
         <ArrowButton onClick={prevSlide}>‹</ArrowButton>
 
@@ -58,10 +57,10 @@ const FeaturedOffers = () => {
           <TextContainer>
             <TextLabel>{slides[current].title}</TextLabel>
             <TextDescription>{slides[current].description}</TextDescription>
-            <SeeMoreContainer>
+            <SeeMoreButton>
               <SeeMoreText>VISUALIZAR</SeeMoreText>
-              <SeeMoreIcon/>
-            </SeeMoreContainer>
+              <SeeMoreIcon />
+            </SeeMoreButton>
           </TextContainer>
 
           <ImageOutlet src={slides[current].image} alt={slides[current].title} />
@@ -70,7 +69,6 @@ const FeaturedOffers = () => {
         <ArrowButton onClick={nextSlide}>›</ArrowButton>
       </SlideWrapper>
 
-      {/* Indicadores abaixo do componente */}
       <Indicators>
         {slides.map((_, index) => (
           <IndicatorDot 
