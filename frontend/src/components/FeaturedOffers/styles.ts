@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { LiaChevronCircleRightSolid } from "react-icons/lia";
 
 export const Wrapper = styled.div`
@@ -35,7 +35,7 @@ export const TextContainer = styled.div`
 export const TextLabel = styled.h1`
   font-family: 'Ferrari Sans', sans-serif;
   font-weight: 700;
-  font-size: 2rem; /* fix */
+  font-size: 2rem;
   letter-spacing: 2px;
   margin-bottom: 1rem;
 `;
@@ -43,7 +43,7 @@ export const TextLabel = styled.h1`
 export const TextDescription = styled.p`
   font-family: 'Ferrari Sans', sans-serif;
   font-weight: 300;
-  font-size: 1rem; /* fix */
+  font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 2rem;
 `;
@@ -102,11 +102,33 @@ export const Indicators = styled.div`
   gap: 10px;
 `;
 
-export const IndicatorDot = styled.div<{ active: boolean }>`
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: ${({ active }) => (active ? "#c00" : "#ccc")};
+export const IndicatorWrapper = styled.div`
+  width: 16px;
+  height: 16px;
   cursor: pointer;
-  transition: background 0.3s;
+`;
+
+export const IndicatorCircle = styled.circle`
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2;
+`;
+
+const progressAnim = keyframes`
+  from { stroke-dashoffset: 37.7; } /* circunferência aproximada p/ r=6 */
+  to { stroke-dashoffset: 0; }
+`;
+
+export const IndicatorProgress = styled.circle<{ active: boolean }>`
+  fill: none;
+  stroke: #c00;
+  stroke-width: 2;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+
+  ${({ active }) =>
+    active &&
+    css`
+      animation: ${progressAnim} 5s linear forwards;
+    `}
 `;
