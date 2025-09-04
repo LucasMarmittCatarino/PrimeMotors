@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 `;
 
 export const TextContainer = styled.div`
-
+    
 `;
 
 export const TextLabel = styled.h1`
@@ -33,4 +33,9 @@ export const SeeMoreIcon = styled(LiaChevronCircleRightSolid).attrs({
     size: 20,
 })`
 
+`;
+
+export const ImageOutlet = styled.img`
+  width: 400px;
+  height: 400px;
 `;

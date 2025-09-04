@@ -1,3 +1,4 @@
+import FerrariPic from '~/assets/Ferrari.webp';
 import {
     Wrapper,
     TextContainer,
@@ -6,6 +7,7 @@ import {
     SeeMoreContainer,
     SeeMoreText,
     SeeMoreIcon,
+    ImageOutlet,
 } from './styles';
 
 const FeaturedOffers = () => {
@@ -19,6 +21,8 @@ const FeaturedOffers = () => {
                     <SeeMoreIcon/>
                 </SeeMoreContainer>
             </TextContainer>
+
+            <ImageOutlet src={FerrariPic} alt="Descrição da imagem"/>
 
         </Wrapper>
     );
