@@ -1,7 +1,6 @@
-// Home.tsx
+import FeaturedOffers from "~/components/FeaturedOffers";
 import {
   Container,
-  FeaturedOffers,
 } from "./styles";
 import WelcomeVideo from "~/components/WelcomeVideo";
 
