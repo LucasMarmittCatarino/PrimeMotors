@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import FerrariOffer from '~/assets/FerrariOffer.webp';
-import LamboOffer from '~/assets/LamboOffer.webp';
-import RollsOffer from '~/assets/RollsOffer.avif';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { featuredSlides } from "~/mocks/FeaturedOffers.mock";
 
 import {
   Wrapper,
@@ -21,31 +19,13 @@ import {
   IndicatorProgress,
 } from './styles';
 
-const SLIDE_INTERVAL = 5000;
-
-const slides = [
-  {
-    title: "Ferrari LaFerrari Aperta",
-    description: "A LaFerrari Aperta é o auge da exclusividade italiana: um V12 híbrido com quase 1000 cv, nascido da Fórmula 1. Conversível, agressiva e raríssima, cada detalhe foi feito para colecionadores que não compram apenas carros, mas símbolos de poder absoluto.",
-    image: FerrariOffer,
-  },
-  {
-    title: "Rolls-Royce Phantom",
-    description: "O Phantom é a essência do luxo britânico, unindo silêncio absoluto e um V12 que entrega potência com suavidade. Seu interior artesanal, feito com materiais nobres escolhidos a dedo, transforma cada viagem em experiência única. Mais do que um automóvel, é o trono moderno da sofisticação.",
-    image: LamboOffer,
-  },
-  {
-    title: "Lamborghini Centenario",
-    description: "Criado para homenagear os 100 anos de Ferruccio Lamborghini, o Centenario é um tributo à ousadia. Com motor V12 de 770 cv, acelera de 0–100 km/h em apenas 2,8s, mas sua verdadeira força está na exclusividade: apenas 40 exemplares foram produzidos, tornando-o um ícone reservado a poucos.",
-    image: RollsOffer,
-  },
-];
-
 const FeaturedOffers = () => {
   const [current, setCurrent] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const slides = featuredSlides;
+  const SLIDE_INTERVAL = 5000;
 
-  const resetTimer = (nextIndex?: number) => {
+  const resetTimer = useCallback((nextIndex?: number) => {
     if (intervalRef.current) clearInterval(intervalRef.current);
 
     intervalRef.current = setInterval(() => {
@@ -55,18 +35,17 @@ const FeaturedOffers = () => {
     if (typeof nextIndex === "number") {
       setCurrent(nextIndex);
     }
-  };
+  }, [slides.length]);
 
   const nextSlide = () => resetTimer((current + 1) % slides.length);
   const prevSlide = () => resetTimer((current - 1 + slides.length) % slides.length);
 
-  // iniciar ciclo automático
   useEffect(() => {
     resetTimer();
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, []);
+  }, [resetTimer]);
 
   return (
     <Wrapper>
