@@ -15,7 +15,10 @@ export const SlideWrapper = styled.div`
   justify-content: center;
   width: 100%;
   max-width: 1200px;
+  height: 400px;
+  overflow: hidden; 
 `;
+
 
 export const Slide = styled.div`
   display: flex;
