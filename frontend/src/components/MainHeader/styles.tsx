@@ -17,7 +17,7 @@ export const HeaderContainer = styled.header<{ solid: boolean; visible: boolean 
   transform: ${({ visible }) => (visible ? "translateY(0)" : "translateY(-100%)")};
 `;
 
-export const HeaderLabels = styled.h1`
+export const HeaderLabels = styled.a`
   font-family: 'Ferrari Sans', sans-serif;
   font-weight: 400;
   font-size: 14px;

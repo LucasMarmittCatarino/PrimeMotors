@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MainHeaderLogo from '~/assets/MainLogo.png';
+import { useNavigate } from "react-router-dom";
 import {
     HeaderContainer,
     HeaderLabels,
@@ -10,6 +11,7 @@ const MainHeader = () => {
     const [solid, setSolid] = useState(false);
     const [visible, setVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -33,10 +35,10 @@ const MainHeader = () => {
     return (
         <HeaderContainer solid={solid} visible={visible}>
             <Logo src={MainHeaderLogo} alt="LuxDrive Logo" />
-            <HeaderLabels>HOME</HeaderLabels>
-            <HeaderLabels>LUXO</HeaderLabels>
+            <HeaderLabels onClick={() => navigate("/")}>HOME</HeaderLabels>
+            <HeaderLabels onClick={() => navigate("/products")}>LUXO</HeaderLabels>
             <HeaderLabels>CORRIDA</HeaderLabels>
-            <HeaderLabels>SOBRE NÓS</HeaderLabels>
+            <HeaderLabels onClick={() => navigate("/about")}>SOBRE NÓS</HeaderLabels>
         </HeaderContainer>
     );
 }
