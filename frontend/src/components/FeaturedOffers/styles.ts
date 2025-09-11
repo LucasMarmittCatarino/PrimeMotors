@@ -6,9 +6,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 50vh;
-  background: #f5f5f5;
-  padding: 2rem;
+  padding-bottom: 2rem;
 `;
 
 export const SlideWrapper = styled.div`
@@ -97,7 +95,6 @@ export const ArrowButton = styled.button`
 `;
 
 export const Indicators = styled.div`
-  margin-top: 1.5rem;
   display: flex;
   gap: 10px;
 `;
