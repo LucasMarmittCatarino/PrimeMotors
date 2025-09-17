@@ -1,0 +1,24 @@
+{
+  "products": [
+    {
+      "id": "94ac3993-ee66-41c0-9027-04d5ad23baf4",
+      "name": "Ferrari Roma",
+      "price": 2500000,
+      "quantity": 3
+    }
+  ],
+  "users": [
+    {
+      "id": "7d8e0008-9a2b-421d-b0fd-93e1a23cea58",
+      "name": "lucas",
+      "role": "customer",
+      "passwordHash": "$2b$10$m1sc8kD.kqs9FqxO9S2TUefs.65mFOhMHXAQ1Lnk9A44Sss1zXE2G"
+    },
+    {
+      "id": "6360e27e-f74b-41dc-9c10-7d2d736dc788",
+      "name": "krupp",
+      "role": "admin",
+      "passwordHash": "$2b$10$t3OnrNDJe5epDMufsU6tH.IYIvVZ/olnH7glEen3lRwZ5uabnV7W6"
+    }
+  ]
+}

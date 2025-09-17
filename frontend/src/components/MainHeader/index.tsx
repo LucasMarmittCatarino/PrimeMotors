@@ -5,6 +5,9 @@ import {
     HeaderContainer,
     HeaderLabels,
     Logo,
+    NavLinks,
+    AuthLinks,
+    SignUpButton,
 } from "./styles";
 
 const MainHeader = () => {
@@ -34,11 +37,19 @@ const MainHeader = () => {
 
     return (
         <HeaderContainer solid={solid} visible={visible}>
-            <Logo src={MainHeaderLogo} alt="LuxDrive Logo" />
-            <HeaderLabels onClick={() => navigate("/")}>HOME</HeaderLabels>
-            <HeaderLabels onClick={() => navigate("/products")}>PRODUTOS</HeaderLabels>
-            <HeaderLabels>CORRIDA</HeaderLabels>
-            <HeaderLabels onClick={() => navigate("/about")}>SOBRE NÓS</HeaderLabels>
+        <Logo src={MainHeaderLogo} alt="LuxDrive Logo" />
+
+        <NavLinks>
+            <HeaderLabels onClick={() => navigate("/")}>Home</HeaderLabels>
+            <HeaderLabels onClick={() => navigate("/products")}>Produtos</HeaderLabels>
+            <HeaderLabels onClick={() => navigate("/race")}>Corrida</HeaderLabels>
+            <HeaderLabels onClick={() => navigate("/about")}>Sobre Nós</HeaderLabels>
+        </NavLinks>
+
+        <AuthLinks>
+            <HeaderLabels onClick={() => navigate("/login")}>Login</HeaderLabels>
+            <SignUpButton onClick={() => navigate("/signup")}>Sign Up</SignUpButton>
+        </AuthLinks>
         </HeaderContainer>
     );
 }
