@@ -36,7 +36,7 @@ const MainHeader = () => {
         <HeaderContainer solid={solid} visible={visible}>
             <Logo src={MainHeaderLogo} alt="LuxDrive Logo" />
             <HeaderLabels onClick={() => navigate("/")}>HOME</HeaderLabels>
-            <HeaderLabels onClick={() => navigate("/products")}>LUXO</HeaderLabels>
+            <HeaderLabels onClick={() => navigate("/products")}>PRODUTOS</HeaderLabels>
             <HeaderLabels>CORRIDA</HeaderLabels>
             <HeaderLabels onClick={() => navigate("/about")}>SOBRE NÓS</HeaderLabels>
         </HeaderContainer>
