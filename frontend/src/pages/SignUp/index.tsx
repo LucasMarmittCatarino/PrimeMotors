@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { signup } from "~/services/auth.api";
 import {
     Container,
     Title, 
@@ -34,28 +35,23 @@ export default function SignUp() {
     setError("");
     setLoading(true);
 
-    try {
-      const res = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.errors ? data.errors.join(", ") : "Erro ao cadastrar");
-      }
-
-      alert("Conta criada com sucesso!");
-      navigate("/login");
-    } catch (err: any) {
+  try {
+    const { data } = await signup(form.name, form.password, form.role);
+    console.log("🔑 Conta criada com:", data);
+    alert(`Conta criada com sucesso! Bem-vindo, ${data.name}`);
+    navigate("/login");
+  } catch (err: unknown) {
+    if (err instanceof Error) {
       setError(err.message);
-    } finally {
-      setLoading(false);
+    } else {
+      setError("Erro ao criar conta");
     }
+  } finally {
+    setLoading(false);
+  }
   };
 
-return (
+  return (
     <Container>
       <Title>Sign Up</Title>
       <Form onSubmit={handleSubmit}>
@@ -90,3 +86,4 @@ return (
     </Container>
   );
 }
+

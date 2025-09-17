@@ -1,6 +1,6 @@
 // src/pages/Login.tsx
 import { useState } from "react";
-import { login } from "~/services/api";
+import { login } from "~/services/auth.api";
 import { useNavigate } from "react-router-dom";
 import {
   PageWrapper,
@@ -30,9 +30,9 @@ export default function Login() {
       localStorage.setItem(
         "user",
         JSON.stringify({
-          id: data.id,
-          name: data.name,
-          role: data.role,
+          id: data.user.id,
+          name: data.user.name,
+          role: data.user.role,
         })
       );
       navigate("/");
