@@ -24,21 +24,16 @@ export default function Login() {
     console.log("🔑 Tentando login com:", { name, password });
 
     try {
-      const { data } = await login(name, password);
+      const response = await login(name, password);
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          id: data.user.id,
-          name: data.user.name,
-          role: data.user.role,
-        })
-      );
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify(response.user));
+
       navigate("/");
     } catch (err: any) {
       setError(err.response?.data?.error || "Erro ao fazer login");
     }
+
   }
 
   return (
@@ -48,7 +43,7 @@ export default function Login() {
 
         <Input
           type="text"
-          placeholder="Nome"
+          placeholder="E-mail"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
