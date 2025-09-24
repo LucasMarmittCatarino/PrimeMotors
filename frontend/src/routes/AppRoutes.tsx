@@ -5,6 +5,7 @@ import Products from "~/pages/Products";
 import Login from "~/pages/Login";
 import SignUp from "~/pages/SignUp";
 import MainLayout from "~/layouts/MainLayout";
+import Profile from "~/pages/Profile";
 
 function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ function AppRoutes() {
         {/* Rotas sem Header */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );
