@@ -1,25 +1,39 @@
 import api from "./api";
 
-export type LoginResponse = {
-  id: any;
-  token: string;
-  user: {
-    id: string;
-    name: string;
-    role: string;
-  };
+// Tipagem do usuário retornado
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: "admin" | "client";
+}
+
+// Signup (registro)
+export const signup = async (name: string, email: string, password: string) => {
+  const response = await api.post<{ user: User; token: string }>("/auth/register", {
+    name,
+    email,
+    password,
+  });
+  return response.data; // aqui é { user, token }
 };
 
-export function login(name: string, password: string) {
-  return api.post<LoginResponse>("/auth/login", { name, password });
-}
 
-export function signup(name: string, password: string, role: string) {
-  return api.post<LoginResponse>("/users", { name, password, role });
-}
-
-export function getProfile(token: string) {
-  return api.get("/auth/me", {
-    headers: { Authorization: `Bearer ${token}` },
+// Login
+export const login = async (email: string, password: string) => {
+  const response = await api.post<{ user: User; token: string }>("/auth/login", {
+    email,
+    password,
   });
-}
+  return response.data;
+};
+
+// Função para buscar usuário autenticado
+export const getMe = async (token: string) => {
+  const response = await api.get<User>("/users/me", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
