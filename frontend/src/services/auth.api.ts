@@ -6,7 +6,20 @@ export interface User {
   name: string;
   email: string;
   role: "admin" | "client";
+  phone?: string;
+  smartphone?: string;
+  birthday?: string;
+  cpf?: string;
+  cnpj?: string;
+  cep?: string;
+  street?: string;
+  number?: string;
+  complement?: string;
+  city?: string;
+  state?: string;
+  newsletter?: boolean;
 }
+
 
 // Signup (registro)
 export const signup = async (name: string, email: string, password: string) => {

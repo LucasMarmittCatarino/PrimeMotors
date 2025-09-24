@@ -15,6 +15,7 @@ import {
   CheckboxWrapper,
   ErrorMessage
 } from "./styles";
+import { updateUser } from "~/services/user.api";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -36,7 +37,6 @@ export default function Profile() {
     city: initialUser.city || "",
     state: initialUser.state || "",
     newsletter: initialUser.newsletter || false,
-    info: initialUser.info || "",
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -48,18 +48,22 @@ export default function Profile() {
     setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
     setLoading(true);
 
     try {
-      const updatedUser = { ...initialUser, ...form };
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Usuário não autenticado");
+
+      const updatedUser = await updateUser(initialUser.id, form, token);
+      const mergedUser = { ...initialUser, ...form, ...updatedUser };
+      localStorage.setItem("user", JSON.stringify(mergedUser));
       setSuccess("Informações atualizadas com sucesso!");
-    } catch {
-      setError("Erro ao atualizar informações.");
+    } catch (err: any) {
+      setError(err.message || "Erro ao atualizar informações.");
     } finally {
       setLoading(false);
     }
@@ -73,7 +77,6 @@ export default function Profile() {
 
       <Form onSubmit={handleSubmit}>
         <SectionTitle>Informações Pessoais</SectionTitle>
-
         <FormGroup>
           <InputWrapper>
             <Input type="text" name="name" value={form.name} onChange={handleChange} placeholder=" " required />
@@ -87,7 +90,7 @@ export default function Profile() {
         </FormGroup>
 
         <FormGroup>
-            <InputWrapper>
+          <InputWrapper>
             <Input type="text" name="cpf" value={form.cpf} onChange={handleChange} placeholder=" " />
             <Label>CPF/CNPJ</Label>
           </InputWrapper>
@@ -112,7 +115,6 @@ export default function Profile() {
 
         <Divider />
         <SectionTitle>Endereço</SectionTitle>
-
         <FormGroup>
           <InputWrapper>
             <Input type="text" name="cep" value={form.cep} onChange={handleChange} placeholder=" " />
@@ -151,16 +153,10 @@ export default function Profile() {
 
         <Divider />
         <SectionTitle>Preferências</SectionTitle>
-
         <CheckboxWrapper>
           <input type="checkbox" name="newsletter" checked={form.newsletter} onChange={handleChange} id="newsletter" />
           <label htmlFor="newsletter">Receber newsletter</label>
         </CheckboxWrapper>
-
-        <InputWrapper>
-          <Input type="text" name="info" value={form.info} onChange={handleChange} placeholder=" " />
-          <Label>Informações Adicionais</Label>
-        </InputWrapper>
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {success && <ErrorMessage style={{ color: "green" }}>{success}</ErrorMessage>}
