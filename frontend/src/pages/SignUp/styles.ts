@@ -1,76 +1,113 @@
+// src/pages/styles.ts
 import styled from "styled-components";
 
-export const Container = styled.div`
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+export const PageWrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
 `;
 
-export const Title = styled.h2`
-  text-align: center;
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
+export const BackButton = styled.button`
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 1000;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #c00;
+  }
+`;
+
+export const FormWrapper = styled.form`
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 
+    0 10px 15px rgba(0,0,0,0.1),
+    0 20px 25px rgba(0,0,0,0.1),
+    0 30px 35px rgba(0,0,0,0.15);
+`;
+
+export const Title = styled.h1`
+  font-size: 1.75rem;
   font-family: 'Ferrari Sans', sans-serif;
+  font-weight: 700;
+  text-align: center;
   color: #181818;
 `;
 
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-export const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const Label = styled.label`
-  font-weight: 500;
-  font-family: 'Ferrari Sans', sans-serif;
-  margin-bottom: 0.5rem;
+export const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
 `;
 
 export const Input = styled.input`
-  padding: 0.5rem;
-  border-radius: 8px;
+  width: 100%;
+  padding: 1rem 0rem 0.25rem 0rem;
+  border-radius: 0.5rem;
   border: 1px solid #ccc;
-  font-family: 'Ferrari Sans', sans-serif;
-  font-size: 0.7rem;
-
-  &:focus {
-    outline: none;
-    border-color: #c00;
-  }
-`;
-
-export const Select = styled.select`
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
   font-size: 1rem;
+  outline: none;
 
   &:focus {
-    outline: none;
     border-color: #c00;
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
+  }
+
+  &:focus + label,
+  &:not(:placeholder-shown) + label {
+    top: -0.6rem;
+    left: 0.65rem;
+    font-size: 0.75rem;
+    background: #fff;
+    padding: 0 0.25rem;
+    color: #c00;
   }
 `;
 
-export const Button = styled.button`
-  padding: 0.75rem;
-  background: #c00;
-  color: white;
+export const Label = styled.label`
+  position: absolute;
+  font-family: 'Ferrari Sans', sans-serif;
+  top: 1rem;
+  left: 0.75rem;
+  font-size: 1rem;
+  color: #aaa;
+  pointer-events: none;
+  transition: all 0.2s ease;
+`;
+
+export const SubmitButton = styled.button`
+  background-color: #c00;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 400;
+  font-size: 1rem;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s;
+  font-family: 'Ferrari Sans', sans-serif;
+  transition: background 0.3s ease;
 
   &:hover {
-    background: #a00;
+    background-color: #a00;
   }
 
   &:disabled {
@@ -79,22 +116,27 @@ export const Button = styled.button`
   }
 `;
 
-export const ErrorText = styled.p`
-  color: red;
+export const ErrorMessage = styled.p`
+  color: #e74c3c;
   font-size: 0.875rem;
-  font-family: 'Ferrari Sans', sans-serif;
   text-align: center;
 `;
 
 export const RedirectText = styled.p`
-  margin-top: 1rem;
   text-align: center;
+  font-size: 0.875rem;
   font-family: 'Ferrari Sans', sans-serif;
-  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.5rem;
 
   span {
     color: #c00;
+    font-weight: 600;
     cursor: pointer;
-    text-decoration: underline;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #a00;
+    }
   }
 `;

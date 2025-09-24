@@ -1,28 +1,29 @@
+// src/pages/SignUp.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "~/services/auth.api";
+import { FaArrowLeft } from "react-icons/fa";
 import {
-  Container,
-  Title, 
-  Form, 
-  FormGroup, 
-  Label, 
+  PageWrapper,
+  BackButton,
+  FormWrapper,
+  Title,
+  InputWrapper,
   Input,
-  Button, 
-  ErrorText, 
-  RedirectText
+  Label,
+  SubmitButton,
+  ErrorMessage,
+  RedirectText,
 } from "./styles";
 
 export default function SignUp() {
   const navigate = useNavigate();
-
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -34,64 +35,62 @@ export default function SignUp() {
     e.preventDefault();
     setError("");
 
-    // Validação frontend: senhas iguais
     if (form.password !== form.confirmPassword) {
       setError("As senhas não coincidem.");
       return;
     }
 
     setLoading(true);
-
-  try {
-    const response = await signup(form.name, form.email, form.password);
-    console.log("🔑 Conta criada com:", response);
-    alert(`Conta criada com sucesso! Bem-vindo, ${response.user.name}`);
-    navigate("/login");
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      setError(err.message); // aqui vai aparecer a mensagem de erro corretamente
-    } else {
-      setError("Erro ao criar conta");
-    }
-  } finally {
+    try {
+      const response = await signup(form.name, form.email, form.password);
+      alert(`Conta criada com sucesso! Bem-vindo, ${response.user.name}`);
+      navigate("/login");
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Erro ao criar conta");
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Container>
-      <Title>Registrar Conta</Title>
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
+    <PageWrapper>
+      <BackButton onClick={() => navigate(-1)}>
+        <FaArrowLeft /> Voltar
+      </BackButton>
+
+      <FormWrapper onSubmit={handleSubmit}>
+        <Title>Registrar Conta</Title>
+
+        <InputWrapper>
+          <Input type="text" name="name" value={form.name} onChange={handleChange} required placeholder=" " />
           <Label>Nome</Label>
-          <Input type="text" name="name" value={form.name} onChange={handleChange} required />
-        </FormGroup>
+        </InputWrapper>
 
-        <FormGroup>
+        <InputWrapper>
+          <Input type="email" name="email" value={form.email} onChange={handleChange} required placeholder=" " />
           <Label>Email</Label>
-          <Input type="email" name="email" value={form.email} onChange={handleChange} required />
-        </FormGroup>
+        </InputWrapper>
 
-        <FormGroup>
+        <InputWrapper>
+          <Input type="password" name="password" value={form.password} onChange={handleChange} required placeholder=" " />
           <Label>Senha</Label>
-          <Input type="password" name="password" value={form.password} onChange={handleChange} required />
-        </FormGroup>
+        </InputWrapper>
 
-        <FormGroup>
+        <InputWrapper>
+          <Input type="password" name="confirmPassword" value={form.confirmPassword} onChange={handleChange} required placeholder=" " />
           <Label>Confirmar Senha</Label>
-          <Input type="password" name="confirmPassword" value={form.confirmPassword} onChange={handleChange} required />
-        </FormGroup>
+        </InputWrapper>
 
-        {error && <ErrorText>{error}</ErrorText>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        <Button type="submit" disabled={loading}>
+        <SubmitButton type="submit" disabled={loading}>
           {loading ? "Criando..." : "Criar Conta"}
-        </Button>
-      </Form>
+        </SubmitButton>
 
-      <RedirectText>
-        Já tem conta? <span onClick={() => navigate("/login")}>Login</span>
-      </RedirectText>
-    </Container>
+        <RedirectText>
+          Já tem conta? <span onClick={() => navigate("/login")}>Login</span>
+        </RedirectText>
+      </FormWrapper>
+    </PageWrapper>
   );
 }

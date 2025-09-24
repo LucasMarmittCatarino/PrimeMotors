@@ -123,7 +123,6 @@ export const RedirectText = styled.p`
   font-weight: 300;
   color: #555;
   font-family: 'Ferrari Sans', sans-serif;
-  margin-top: 3.5rem;
   
   span {
     color: #c00;
