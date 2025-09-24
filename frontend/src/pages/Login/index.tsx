@@ -1,14 +1,18 @@
-// src/pages/Login.tsx
 import { useState } from "react";
 import { login } from "~/services/auth.api";
 import { useNavigate } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 import {
   PageWrapper,
   FormWrapper,
   Title,
+  InputWrapper,
   Input,
+  Label,
   SubmitButton,
   ErrorMessage,
+  BackButton,
+  RedirectText,
 } from "./styles";
 
 export default function Login() {
@@ -21,8 +25,6 @@ export default function Login() {
     e.preventDefault();
     setError(null);
 
-    console.log("🔑 Tentando login com:", { name, password });
-
     try {
       const response = await login(name, password);
 
@@ -33,32 +35,45 @@ export default function Login() {
     } catch (err: any) {
       setError(err.response?.data?.error || "Erro ao fazer login");
     }
-
   }
 
   return (
     <PageWrapper>
+      <BackButton type="button" onClick={() => navigate(-1)}>
+        <FiArrowLeft size={20} /> Voltar
+      </BackButton>
+
       <FormWrapper onSubmit={handleSubmit}>
         <Title>Login</Title>
 
-        <Input
-          type="text"
-          placeholder="E-mail"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <InputWrapper>
+          <Input 
+            type="text" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)} 
+            required 
+          />
+          <Label>Nome</Label>
+        </InputWrapper>
 
-        <Input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <InputWrapper>
+          <Input 
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+          />
+          <Label>Senha</Label>
+        </InputWrapper>
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
         <SubmitButton type="submit">Entrar</SubmitButton>
       </FormWrapper>
+      <RedirectText>
+        Não tem conta? <span onClick={() => navigate("/signup")}>Cadastre-se</span>
+      </RedirectText>
+
     </PageWrapper>
   );
 }
