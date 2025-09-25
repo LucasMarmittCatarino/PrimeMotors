@@ -25,6 +25,12 @@ const ProductDetails = () => {
   const handleAddToCart = async () => {
     if (!product) return;
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     try {
       await addToCart(product.id, 1); // envia para o back
       navigate("/cart");
@@ -33,6 +39,7 @@ const ProductDetails = () => {
       alert("Não foi possível adicionar ao carrinho");
     }
   };
+
 
 
   useEffect(() => {
