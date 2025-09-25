@@ -95,6 +95,9 @@ const MainHeader = () => {
                                     <DropdownItem onClick={() => { navigate("/profile"); setDropdownOpen(false); }}>
                                         Editar Perfil
                                     </DropdownItem>
+                                    <DropdownItem onClick={() => { navigate("/purchase-history"); setDropdownOpen(false); }}>
+                                        Histórico de compras
+                                    </DropdownItem>
                                     <DropdownItem onClick={logout}>
                                         Sair
                                     </DropdownItem>

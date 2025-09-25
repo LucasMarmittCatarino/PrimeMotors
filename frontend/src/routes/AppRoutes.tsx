@@ -12,6 +12,7 @@ import Cart from "~/pages/Cart";
 import AdminOrders from "~/pages/AdminOrders";
 import ProtectedRoute from "./ProtectedRoute";
 import CreateAdmin from "~/pages/CreateAdmin";
+import PurchaseHistory from "~/pages/PurchaseHistory";
 
 function AppRoutes() {
   return (
@@ -25,15 +26,17 @@ function AppRoutes() {
           <Route path="/about" element={<About />} />
           <Route path="/admin-orders" element={<ProtectedRoute><AdminOrders /></ProtectedRoute>} />
           <Route path="/create-admin" element={<ProtectedRoute><CreateAdmin /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/cart" element={<ProtectedRoute><Cart/></ProtectedRoute>} />
+          <Route path="/purchase-history" element={<ProtectedRoute><PurchaseHistory /></ProtectedRoute>} />
+          
         </Route>
 
         {/* Rotas sem Header */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/products/new" element={<ProductForm />} />
-        <Route path="/products/:id/edit" element={<ProductForm />} />
-        <Route path="/cart" element={<ProtectedRoute><Cart/></ProtectedRoute>} />
+        <Route path="/products/new" element={<ProtectedRoute><ProductForm /></ProtectedRoute>} />
+        <Route path="/products/:id/edit" element={<ProtectedRoute><ProductForm /></ProtectedRoute>} />
       </Routes>
     </Router>
   );

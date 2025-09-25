@@ -11,7 +11,7 @@ const growLine = keyframes`
 
 export const PageWrapper = styled.div`
   min-height: 100vh;
-  padding: 40px 20px;
+  padding: 80px 20px;
   background-color: #fff;
 `;
 

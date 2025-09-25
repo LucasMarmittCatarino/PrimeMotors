@@ -48,9 +48,23 @@ const checkout = async (req, res) => {
 };
 
 const getMyOrders = async (req, res) => {
-  const orders = await Order.findAll({ where: { UserId: req.user.id }, include: [OrderItem] });
-  res.json(orders);
+  try {
+    const orders = await Order.findAll({
+      where: { UserId: req.user.id },
+      include: [
+        {
+          model: OrderItem,
+          include: [Product], // popula os produtos dentro de cada OrderItem
+        }
+      ],
+      order: [['createdAt', 'DESC']]
+    });
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao buscar pedidos do usuário', error: err.message });
+  }
 };
+
 
 const getAllOrders = async (req, res) => {
   try {

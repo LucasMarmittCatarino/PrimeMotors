@@ -1,24 +1,17 @@
 import api from "./api";
+import type { User } from "./auth.api";
+
+export interface Product {
+  id: number;
+  title: string;
+  imageUrl?: string;
+}
 
 export interface OrderItem {
   id: number;
-  ProductId: number;
   quantity: number;
-  priceAtPurchase: number;
-  Product: {
-    id: number;
-    title: string;
-    imageUrl?: string;
-  };
-}
-
-
-export interface OrderUser {
-  id: number;
-  name: string;
-  email: string;
-  phone?: string;
-  role: "client" | "admin";
+  Product: Product;
+  priceAtPurchase?: number; // opcional
 }
 
 export interface Order {
@@ -26,7 +19,7 @@ export interface Order {
   total: number;
   status: "pending" | "completed" | "canceled";
   OrderItems: OrderItem[];
-  User?: OrderUser; // adiciona o usuário
+  User?: User; // só se precisar mostrar info do usuário
 }
 
 // Checkout
@@ -38,28 +31,30 @@ export const checkout = async (): Promise<Order> => {
     "/orders/checkout",
     {},
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     }
   );
   return response.data;
 };
 
-
-// Listar pedidos do usuário
+// Lista pedidos do usuário
 export const getMyOrders = async (): Promise<Order[]> => {
-  const response = await api.get<Order[]>("/orders/my-orders");
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Usuário não autenticado");
+
+  const response = await api.get<Order[]>("/orders/my-orders", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return response.data;
 };
 
-// Listar todos os pedidos (admin)
+// Lista todos pedidos (admin)
 export const getAllOrders = async (): Promise<Order[]> => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("Usuário não autenticado");
 
   const response = await api.get<Order[]>("/orders", {
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
 };
