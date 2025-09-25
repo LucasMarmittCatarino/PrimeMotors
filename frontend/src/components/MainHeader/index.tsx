@@ -71,6 +71,11 @@ const MainHeader = () => {
             )}
 
             <HeaderLabels onClick={() => navigate("/about")}>Sobre Nós</HeaderLabels>
+            {user?.role === "admin" && (
+                <HeaderLabels onClick={() => navigate("/create-admin")}>Criar Admin</HeaderLabels>
+
+            )}
+
             </NavLinks>
 
             <AuthLinks>

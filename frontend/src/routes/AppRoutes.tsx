@@ -11,6 +11,7 @@ import ProductForm from "~/pages/ProductForm";
 import Cart from "~/pages/Cart";
 import AdminOrders from "~/pages/AdminOrders";
 import ProtectedRoute from "./ProtectedRoute";
+import CreateAdmin from "~/pages/CreateAdmin";
 
 function AppRoutes() {
   return (
@@ -23,6 +24,7 @@ function AppRoutes() {
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/about" element={<About />} />
           <Route path="/admin-orders" element={<ProtectedRoute><AdminOrders /></ProtectedRoute>} />
+          <Route path="/create-admin" element={<ProtectedRoute><CreateAdmin /></ProtectedRoute>} />
         </Route>
 
         {/* Rotas sem Header */}
