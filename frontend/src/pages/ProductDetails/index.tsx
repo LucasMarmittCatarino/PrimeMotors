@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductById, type Product } from "~/services/product.api";
-import { addToLocalCart } from "~/services/cartLocal";
+import { addToCart } from "~/services/cart.api";
 import {
   BackButton,
   Description,
@@ -22,19 +22,18 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!product) return;
 
-    addToLocalCart({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      quantity: 1,
-      imageUrl: product.imageUrl,
-    });
-
-    navigate("/cart");
+    try {
+      await addToCart(product.id, 1); // envia para o back
+      navigate("/cart");
+    } catch (err) {
+      console.error("Erro ao adicionar ao carrinho:", err);
+      alert("Não foi possível adicionar ao carrinho");
+    }
   };
+
 
   useEffect(() => {
     const loadProduct = async () => {

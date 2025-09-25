@@ -1,4 +1,5 @@
-const { Order, OrderItem, CartItem, Product } = require('../models');
+const { Order, OrderItem, CartItem, Product, User } = require('../models');
+
 const sequelize = require('../config/database');
 
 const checkout = async (req, res) => {
@@ -52,8 +53,24 @@ const getMyOrders = async (req, res) => {
 };
 
 const getAllOrders = async (req, res) => {
-  const orders = await Order.findAll({ include: [OrderItem] });
-  res.json(orders);
+  try {
+    const orders = await Order.findAll({
+      include: [
+        {
+          model: OrderItem,
+          include: [Product], // para trazer os produtos também
+        },
+        {
+          model: User,
+          attributes: ['id', 'name', 'email', 'role'] // dados do usuário dono da ordem
+        }
+      ],
+      order: [['createdAt', 'DESC']]
+    });
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao buscar ordens', error: err.message });
+  }
 };
 
 module.exports = { checkout, getMyOrders, getAllOrders };

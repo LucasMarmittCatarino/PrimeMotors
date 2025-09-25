@@ -20,10 +20,13 @@ export interface Order {
 }
 
 // Checkout
-export const checkout = async (token: string): Promise<Order> => {
+export const checkout = async (): Promise<Order> => {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Usuário não autenticado");
+
   const response = await api.post<Order>(
     "/orders/checkout",
-    {}, // corpo vazio
+    {},
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,6 +35,8 @@ export const checkout = async (token: string): Promise<Order> => {
   );
   return response.data;
 };
+
+
 // Listar pedidos do usuário
 export const getMyOrders = async (): Promise<Order[]> => {
   const response = await api.get<Order[]>("/orders/my-orders");

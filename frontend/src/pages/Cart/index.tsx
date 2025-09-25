@@ -1,87 +1,58 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCart, updateCartItem, removeFromCart } from "~/services/cart.api";
 import { checkout } from "~/services/order.api";
-import {
-  getLocalCart,
-  updateLocalCartQuantity,
-  removeFromLocalCart,
-} from "~/services/cartLocal";
 
 import {
-  Wrapper,
-  Title,
-  CartContent,
-  Items,
-  Item,
-  Image,
-  Details,
-  Name,
-  Price,
-  QuantityWrapper,
-  RemoveButton,
-  Summary,
-  SummaryTitle,
-  SummaryItem,
-  SummaryItemTotal,
-  CheckoutButton,
+  Wrapper, Title, CartContent, Items, Item, Image, Details,
+  Name, Price, QuantityWrapper, RemoveButton, Summary,
+  SummaryTitle, SummaryItem, SummaryItemTotal, CheckoutButton,
 } from "./styles";
-
-interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  quantity: number;
-  imageUrl?: string;
-}
-// ...imports e interfaces continuam iguais
 
 const Cart = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const loadCart = async () => {
+    try {
+      const items = await getCart();
+      setCartItems(items);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    setCartItems(getLocalCart());
-    setLoading(false);
+    loadCart();
   }, []);
 
-  const handleUpdateQuantity = (id: number, quantity: number) => {
+  const handleUpdateQuantity = async (id: number, quantity: number) => {
     if (quantity < 1) return;
-    updateLocalCartQuantity(id, quantity);
-    setCartItems(getLocalCart());
+    await updateCartItem(id, quantity);
+    loadCart();
+  };
+
+  const handleRemoveItem = async (id: number) => {
+    await removeFromCart(id);
+    loadCart();
   };
 
   const handleCheckout = async () => {
     try {
-      const storedUser = localStorage.getItem("user");
-      if (!storedUser) {
-        alert("Você precisa estar logado para finalizar a compra");
-        return;
-      }
-
-      const user = JSON.parse(storedUser);
-      const token = user.token;
-
-      await checkout(token); // envia o token
+      await checkout(); // já usa o carrinho do back
       alert("Compra finalizada com sucesso!");
-
-      // Limpa carrinho local
-      localStorage.removeItem("cart");
-      setCartItems([]);
+      loadCart();
       navigate("/products");
     } catch (err: any) {
       alert(err.response?.data?.message || "Erro ao finalizar compra");
     }
   };
 
-
-  const handleRemoveItem = (id: number) => {
-    removeFromLocalCart(id);
-    setCartItems(getLocalCart());
-  };
-
   const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + item.Product.price * item.quantity,
     0
   );
   const shipping = subtotal > 0 ? 50 : 0;
@@ -104,11 +75,11 @@ const Cart = () => {
         <Items>
           {cartItems.map((item) => (
             <Item key={item.id}>
-              <Image src={item.imageUrl || "/placeholder.jpg"} alt={item.title} />
+              <Image src={item.Product.imageUrl || "/placeholder.jpg"} alt={item.Product.title} />
               <Details>
-                <Name>{item.title}</Name>
+                <Name>{item.Product.title}</Name>
                 <Price>
-                  R$ {item.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                  R$ {item.Product.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                 </Price>
                 <QuantityWrapper>
                   <label>Qtd:</label>
@@ -116,9 +87,7 @@ const Cart = () => {
                     type="number"
                     value={item.quantity}
                     min={1}
-                    onChange={(e) =>
-                      handleUpdateQuantity(item.id, Number(e.target.value))
-                    }
+                    onChange={(e) => handleUpdateQuantity(item.id, Number(e.target.value))}
                   />
                 </QuantityWrapper>
                 <RemoveButton onClick={() => handleRemoveItem(item.id)}>
@@ -131,37 +100,25 @@ const Cart = () => {
 
         <Summary>
           <SummaryTitle>Resumo do Pedido</SummaryTitle>
-
-          {/* Botão para comprar mais */}
           <CheckoutButton
             style={{ backgroundColor: "#007bff", marginBottom: "15px" }}
             onClick={() => navigate("/products")}
           >
             Comprar mais
           </CheckoutButton>
-
           <SummaryItem>
             <span>Subtotal</span>
-            <span>
-              R$ {subtotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-            </span>
+            <span>R$ {subtotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span>
           </SummaryItem>
           <SummaryItem>
             <span>Frete</span>
-            <span>
-              R$ {shipping.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-            </span>
+            <span>R$ {shipping.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span>
           </SummaryItem>
           <SummaryItemTotal>
             <span>Total</span>
-            <span>
-              R$ {total.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-            </span>
+            <span>R$ {total.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span>
           </SummaryItemTotal>
-
-          <CheckoutButton onClick={handleCheckout}>
-            Finalizar Compra
-          </CheckoutButton>
+          <CheckoutButton onClick={handleCheckout}>Finalizar Compra</CheckoutButton>
         </Summary>
       </CartContent>
     </Wrapper>
