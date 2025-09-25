@@ -6,6 +6,8 @@ import Login from "~/pages/Login";
 import SignUp from "~/pages/SignUp";
 import MainLayout from "~/layouts/MainLayout";
 import Profile from "~/pages/Profile";
+import ProductDetails from "~/pages/ProductDetails";
+import ProductForm from "~/pages/ProductForm";
 
 function AppRoutes() {
   return (
@@ -15,6 +17,7 @@ function AppRoutes() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/about" element={<About />} />
         </Route>
 
@@ -22,6 +25,8 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/products/new" element={<ProductForm />} />
+        <Route path="/products/:id/edit" element={<ProductForm />} />
       </Routes>
     </Router>
   );

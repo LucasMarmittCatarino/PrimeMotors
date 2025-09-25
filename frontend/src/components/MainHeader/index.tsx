@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import MainHeaderLogo from '~/assets/MainLogo.png';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
     HeaderContainer,
     HeaderLabels,
@@ -17,26 +17,34 @@ import {
 import { useAuth } from "~/hooks/useAuth";
 
 const MainHeader = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { user, logout } = useAuth();
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Rotas que permitem header transparente
+    const transparentRoutes = ["/"];
+    const allowTransparent = transparentRoutes.includes(location.pathname);
+
+    // Estados de scroll e visibilidade
     const [solid, setSolid] = useState(false);
     const [visible, setVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const navigate = useNavigate();
-    const { user, logout } = useAuth();
-    const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Scroll behavior
     useEffect(() => {
         const handleScroll = () => {
             const currentScroll = window.scrollY;
-            setSolid(currentScroll > 0);
+            // Se a página permite transparente, solid depende do scroll
+            setSolid(allowTransparent ? currentScroll > 50 : true);
             setVisible(currentScroll <= lastScrollY);
             setLastScrollY(currentScroll);
         };
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, [lastScrollY]);
+    }, [lastScrollY, allowTransparent]);
 
     // Fecha dropdown ao clicar fora
     useEffect(() => {
@@ -50,7 +58,7 @@ const MainHeader = () => {
     }, []);
 
     return (
-        <HeaderContainer solid={solid} visible={visible}>
+        <HeaderContainer solid={solid} visible={visible} allowTransparent={allowTransparent}>
             <Logo src={MainHeaderLogo} alt="LuxDrive Logo" />
 
             <NavLinks>

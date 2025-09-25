@@ -1,20 +1,33 @@
 import styled from "styled-components";
 import { FaShoppingCart } from "react-icons/fa";
 
-export const HeaderContainer = styled.header<{ solid: boolean; visible: boolean }>`
+export const HeaderContainer = styled.header<{
+  solid: boolean;
+  visible: boolean;
+  allowTransparent?: boolean;
+}>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between; /* separa menu e ações */
+  justify-content: space-between;
   align-items: center;
   transition: all 0.3s ease;
   padding: 20px 40px;
   z-index: 1000;
-  background: ${({ solid }) => (solid ? "#191918" : "transparent")};
+
+  background: ${({ solid, allowTransparent }) =>
+    allowTransparent
+      ? solid
+        ? "#191918"
+        : "transparent"
+      : "#191918"};
+
   transform: ${({ visible }) => (visible ? "translateY(0)" : "translateY(-100%)")};
 `;
+
+
 
 export const Logo = styled.img`
   height: 40px;

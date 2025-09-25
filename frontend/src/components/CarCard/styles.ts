@@ -1,50 +1,60 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+export const CardWrapper = styled.div`
+  position: relative;
   width: 250px;
-  height: 350px;
-  background-color: #fff;
-  align-items: center;
-  border: none;
-  border-radius: 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   overflow: hidden;
-
-  box-shadow: 0px 8px 20px rgba(0,0,0,0.25);
-
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #fff;
+  cursor: pointer;
+  transition: transform 0.2s;
 
   &:hover {
-    transform: translateY(-8px);
-
-    box-shadow: 0px 12px 32px rgba(0,0,0,0.35),
-                0px 16px 48px rgba(0,0,0,0.25);
+    transform: scale(1.03);
   }
 `;
 
-
-
-
 export const CardImage = styled.img`
   width: 100%;
-  height: 180px;
+  height: 150px;
   object-fit: cover;
 `;
 
-export const CardCarName = styled.h2`
-  font-size: 1.2rem;
-  font-family: 'Ferrari Sans', sans-serif;
-  font-weight: 500;
-  margin: 12px 0 4px 0;
-  color: #333;
-  text-align: center;
+export const CardInfo = styled.div`
+  padding: 10px;
+
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  p {
+    margin: 5px 0 0;
+    color: #444;
+  }
 `;
 
-export const CardCarPrice = styled.p`
-  font-size: 0.9rem;
-  font-family: 'Ferrari Sans', sans-serif;
-  font-weight: 300;
-  color: #c00;
-  margin-bottom: 12px;
+export const AdminButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+
+  button {
+    padding: 5px 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+
+  button:first-child {
+    background: #007bff;
+    color: #fff;
+  }
+
+  button:last-child {
+    background: #dc3545;
+    color: #fff;
+  }
 `;
