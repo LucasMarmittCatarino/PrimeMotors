@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductById, type Product } from "~/services/product.api";
+import { addToLocalCart } from "~/services/cartLocal";
 import {
   BackButton,
   Description,
@@ -20,6 +21,20 @@ const ProductDetails = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    addToLocalCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      quantity: 1,
+      imageUrl: product.imageUrl,
+    });
+
+    navigate("/cart");
+  };
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -55,7 +70,7 @@ const ProductDetails = () => {
             <Price>R$ {product.price.toLocaleString("pt-BR")}</Price>
             <Stock>Estoque: {product.stock}</Stock>
           </PriceStockWrapper>
-          <ActionButton>Comprar Agora</ActionButton>
+          <ActionButton onClick={handleAddToCart}>Comprar Agora</ActionButton>
         </InfoBox>
       </TopSection>
     </Wrapper>

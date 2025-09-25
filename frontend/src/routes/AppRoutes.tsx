@@ -8,6 +8,7 @@ import MainLayout from "~/layouts/MainLayout";
 import Profile from "~/pages/Profile";
 import ProductDetails from "~/pages/ProductDetails";
 import ProductForm from "~/pages/ProductForm";
+import Cart from "~/pages/Cart";
 
 function AppRoutes() {
   return (
@@ -27,6 +28,7 @@ function AppRoutes() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/products/new" element={<ProductForm />} />
         <Route path="/products/:id/edit" element={<ProductForm />} />
+        <Route path="/cart" element={<Cart/>} />
       </Routes>
     </Router>
   );
