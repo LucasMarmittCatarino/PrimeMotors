@@ -62,10 +62,15 @@ const MainHeader = () => {
             <Logo src={MainHeaderLogo} alt="LuxDrive Logo" />
 
             <NavLinks>
-                <HeaderLabels onClick={() => navigate("/")}>Home</HeaderLabels>
-                <HeaderLabels onClick={() => navigate("/products")}>Produtos</HeaderLabels>
-                <HeaderLabels onClick={() => navigate("/race")}>Corrida</HeaderLabels>
-                <HeaderLabels onClick={() => navigate("/about")}>Sobre Nós</HeaderLabels>
+            <HeaderLabels onClick={() => navigate("/")}>Home</HeaderLabels>
+            <HeaderLabels onClick={() => navigate("/products")}>Produtos</HeaderLabels>
+
+            {/* Link para admin */}
+            {user?.role === "admin" && (
+                <HeaderLabels onClick={() => navigate("/admin-orders")}>Admin</HeaderLabels>
+            )}
+
+            <HeaderLabels onClick={() => navigate("/about")}>Sobre Nós</HeaderLabels>
             </NavLinks>
 
             <AuthLinks>

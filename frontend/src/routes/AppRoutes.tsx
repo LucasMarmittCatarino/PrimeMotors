@@ -9,6 +9,7 @@ import Profile from "~/pages/Profile";
 import ProductDetails from "~/pages/ProductDetails";
 import ProductForm from "~/pages/ProductForm";
 import Cart from "~/pages/Cart";
+import AdminOrders from "~/pages/AdminOrders";
 
 function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ function AppRoutes() {
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/about" element={<About />} />
+          <Route path="/admin-orders" element={<AdminOrders />} />
         </Route>
 
         {/* Rotas sem Header */}

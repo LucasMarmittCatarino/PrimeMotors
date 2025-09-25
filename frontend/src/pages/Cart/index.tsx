@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { checkout } from "~/services/order.api";
 import {
   getLocalCart,
   updateLocalCartQuantity,
@@ -49,6 +50,30 @@ const Cart = () => {
     updateLocalCartQuantity(id, quantity);
     setCartItems(getLocalCart());
   };
+
+  const handleCheckout = async () => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser) {
+        alert("Você precisa estar logado para finalizar a compra");
+        return;
+      }
+
+      const user = JSON.parse(storedUser);
+      const token = user.token;
+
+      await checkout(token); // envia o token
+      alert("Compra finalizada com sucesso!");
+
+      // Limpa carrinho local
+      localStorage.removeItem("cart");
+      setCartItems([]);
+      navigate("/products");
+    } catch (err: any) {
+      alert(err.response?.data?.message || "Erro ao finalizar compra");
+    }
+  };
+
 
   const handleRemoveItem = (id: number) => {
     removeFromLocalCart(id);
@@ -134,7 +159,7 @@ const Cart = () => {
             </span>
           </SummaryItemTotal>
 
-          <CheckoutButton onClick={() => alert("Checkout!")}>
+          <CheckoutButton onClick={handleCheckout}>
             Finalizar Compra
           </CheckoutButton>
         </Summary>
