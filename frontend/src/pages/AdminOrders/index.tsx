@@ -42,6 +42,9 @@ const AdminOrders = () => {
         <thead>
           <TableRow>
             <TableHeader>ID Pedido</TableHeader>
+            <TableHeader>Cliente</TableHeader>
+            <TableHeader>Email</TableHeader>
+            <TableHeader>Telefone</TableHeader>
             <TableHeader>Status</TableHeader>
             <TableHeader>Total</TableHeader>
             <TableHeader>Produtos</TableHeader>
@@ -51,14 +54,22 @@ const AdminOrders = () => {
           {filteredOrders.map((order) => (
             <TableRow key={order.id}>
               <TableCell>{order.id}</TableCell>
+              <TableCell>{order.User?.name || "-"}</TableCell>
+              <TableCell>{order.User?.email || "-"}</TableCell>
+              <TableCell>{order.User?.phone || "-"}</TableCell>
               <TableCell>{order.status}</TableCell>
               <TableCell>
                 R$ {order.total.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
               </TableCell>
               <TableCell>
                 {order.OrderItems.map((item) => (
-                  <div key={item.id}>
-                    {item.Product.title} x{item.quantity}
+                  <div key={item.id} style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+                    <img
+                      src={item.Product.imageUrl || "/placeholder.jpg"}
+                      alt={item.Product.title}
+                      style={{ width: 60, height: 40, objectFit: "cover", marginRight: 8 }}
+                    />
+                    <span>{item.Product.title} x{item.quantity}</span>
                   </div>
                 ))}
               </TableCell>
@@ -66,6 +77,7 @@ const AdminOrders = () => {
           ))}
         </tbody>
       </Table>
+
     </Wrapper>
   );
 };
