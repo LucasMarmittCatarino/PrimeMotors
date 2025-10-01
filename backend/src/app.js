@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 4000;
 (async () => {
   try {
     // Para dev: sincroniza models com o DB
-    await sequelize.sync({ alter: true });
+  await sequelize.sync();
     app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
   } catch (err) {
     console.error('Erro ao iniciar', err);

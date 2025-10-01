@@ -2,7 +2,7 @@ const { sequelize, User, Product } = require('./models');
 const bcrypt = require('bcrypt');
 
 (async () => {
-  await sequelize.sync({ force: true });
+  await sequelize.sync();
   const pass = await bcrypt.hash('admin123', 10);
   await User.create({
     name: 'Admin',

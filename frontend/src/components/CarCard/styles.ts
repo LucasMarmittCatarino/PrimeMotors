@@ -3,6 +3,9 @@ import styled from "styled-components";
 export const CardWrapper = styled.div`
   position: relative;
   width: 250px;
+  height: 320px; // altura fixa para manter todos alinhados
+  display: flex;
+  flex-direction: column;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   overflow: hidden;
@@ -23,6 +26,8 @@ export const CardImage = styled.img`
 
 export const CardInfo = styled.div`
   padding: 10px;
+  font-family: 'Ferrari Sans', sans-serif;
+  font-size: 12px;
 
   h3 {
     margin: 0;
@@ -36,25 +41,37 @@ export const CardInfo = styled.div`
 `;
 
 export const AdminButtons = styled.div`
+  margin-top: auto; // empurra os botões para o final do card
   display: flex;
   justify-content: space-between;
-  padding: 5px 10px;
+  font-family: 'Ferrari Sans', sans-serif;
+  padding: 10px;
 
   button {
-    padding: 5px 8px;
+    padding: 6px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    transition: background 0.2s ease;
   }
 
   button:first-child {
-    background: #007bff;
-    color: #fff;
+    background: #e0b450;
+    color: black;
+    font-family: 'Ferrari Sans', sans-serif;
+    font-weight: 400;
   }
 
   button:last-child {
     background: #dc3545;
     color: #fff;
+    font-family: 'Ferrari Sans', sans-serif;
+    font-weight: 400;
+
+    &:disabled {
+      background: #a0a0a0;
+      cursor: not-allowed;
+    }
   }
 `;

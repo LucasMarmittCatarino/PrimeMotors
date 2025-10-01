@@ -62,8 +62,6 @@ const ProductDetails = () => {
 
   return (
     <Wrapper>
-      <BackButton onClick={() => navigate(-1)}>← Voltar</BackButton>
-
       <TopSection>
         <ProductImage
           src={product.imageUrl || "/placeholder.jpg"}
@@ -73,7 +71,9 @@ const ProductDetails = () => {
           <Title>{product.title}</Title>
           <Description>{product.description}</Description>
           <PriceStockWrapper>
-            <Price>R$ {product.price.toLocaleString("pt-BR")}</Price>
+            <Price>
+              R$ {product.price.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </Price>
             <Stock>Estoque: {product.stock}</Stock>
           </PriceStockWrapper>
           <ActionButton onClick={handleAddToCart}>Comprar Agora</ActionButton>

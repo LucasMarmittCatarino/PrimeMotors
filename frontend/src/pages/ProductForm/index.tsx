@@ -1,7 +1,18 @@
 // src/pages/ProductForm.tsx
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Wrapper, Title, Form, Input, TextArea, Button } from "./styles";
+import {
+  PageWrapper,
+  FormWrapper,
+  Title,
+  InputWrapper,
+  Input,
+  TextArea,
+  Label,
+  SubmitButton,
+  CancelButton,
+} from "./styles";
+
 import { createProduct, getProductById, updateProduct } from "~/services/product.api";
 
 const ProductForm = () => {
@@ -12,10 +23,13 @@ const ProductForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    price: 0,
+    price: 0, // número puro (pra enviar pro back)
     stock: 0,
     imageUrl: "",
   });
+
+  // estado separado só para exibir no input de preço
+  const [priceInput, setPriceInput] = useState("R$ 0,00");
 
   useEffect(() => {
     if (isEditing && id) {
@@ -27,6 +41,13 @@ const ProductForm = () => {
           stock: data.stock,
           imageUrl: data.imageUrl || "",
         });
+
+        setPriceInput(
+          data.price.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          })
+        );
       });
     }
   }, [id, isEditing]);
@@ -35,14 +56,14 @@ const ProductForm = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "price" || name === "stock" ? Number(value) : value,
+      [name]: name === "stock" ? Number(value) : value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
 
-    const token = localStorage.getItem("token"); // pega o token do usuário logado
     if (!token) {
       alert("Você precisa estar logado como admin.");
       return;
@@ -63,19 +84,73 @@ const ProductForm = () => {
     }
   };
 
+  const formatCurrency = (value: string) => {
+    const onlyDigits = value.replace(/\D/g, "");
+    const numberValue = Number(onlyDigits) / 100;
+    return numberValue.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  };
+
+  const parseCurrencyToNumber = (value: string) => {
+    return Number(value.replace(/\D/g, "")) / 100;
+  };
+
   return (
-    <Wrapper>
-      <Title>{isEditing ? "Editar Produto" : "Adicionar Produto"}</Title>
-      <Form onSubmit={handleSubmit}>
-        <Input type="text" name="title" placeholder="Nome do produto" value={formData.title} onChange={handleChange} required />
-        <TextArea name="description" placeholder="Descrição" value={formData.description} onChange={handleChange} required />
-        <Input type="number" name="price" placeholder="Preço" value={formData.price} onChange={handleChange} required />
-        <Input type="number" name="stock" placeholder="Estoque" value={formData.stock} onChange={handleChange} required />
-        <Input type="text" name="imageUrl" placeholder="URL da imagem" value={formData.imageUrl} onChange={handleChange} />
-        <Button type="submit">{isEditing ? "Salvar alterações" : "Criar Produto"}</Button>
-      </Form>
-    </Wrapper>
+    <PageWrapper>
+      <FormWrapper onSubmit={handleSubmit}>
+        <Title>{isEditing ? "Editar Produto" : "Adicionar Produto"}</Title>
+
+        <InputWrapper>
+          <Input type="text" name="title" value={formData.title} onChange={handleChange} required placeholder=" " />
+          <Label>Nome do Produto</Label>
+        </InputWrapper>
+
+        <InputWrapper>
+          <TextArea name="description" value={formData.description} onChange={handleChange} required placeholder=" " />
+          <Label>Descrição</Label>
+        </InputWrapper>
+
+        <InputWrapper>
+          <Input
+            type="text"
+            name="price"
+            value={priceInput}
+            onChange={(e) => {
+              const raw = e.target.value;
+              const formatted = formatCurrency(raw);
+              const parsed = parseCurrencyToNumber(raw);
+              setPriceInput(formatted);
+              setFormData((prev) => ({ ...prev, price: parsed }));
+            }}
+            required
+            placeholder=" "
+          />
+          <Label>Preço</Label>
+        </InputWrapper>
+
+        <InputWrapper>
+          <Input type="number" name="stock" value={formData.stock} onChange={handleChange} required placeholder=" " />
+          <Label>Estoque</Label>
+        </InputWrapper>
+
+        <InputWrapper>
+          <Input type="text" name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder=" " />
+          <Label>URL da Imagem</Label>
+        </InputWrapper>
+
+        <SubmitButton type="submit">
+          {isEditing ? "Salvar alterações" : "Criar Produto"}
+        </SubmitButton>
+        <CancelButton type="button" onClick={() => navigate(-1)}>
+            Cancelar
+        </CancelButton>
+      </FormWrapper>
+    </PageWrapper>
+
   );
 };
+
 
 export default ProductForm;

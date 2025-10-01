@@ -1,6 +1,20 @@
 import { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import { getAllOrders, type Order } from "~/services/order.api";
-import { Wrapper, Table, TableRow, TableHeader, TableCell, FilterInput } from "./styles";
+import {
+  Wrapper,
+  Table,
+  TableRow,
+  TableHeader,
+  TableCell,
+  FilterInput,
+  FilterInputWrapper,
+  SearchIcon,
+  ProductsContainer,
+  ProductItem,
+  Header,
+  ReportTitle,
+} from "./styles";
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -31,12 +45,19 @@ const AdminOrders = () => {
 
   return (
     <Wrapper>
-      <h1>Pedidos</h1>
-      <FilterInput
-        placeholder="Pesquisar por carro..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <Header>
+        <ReportTitle>Pedidos</ReportTitle>
+        <FilterInputWrapper>
+          <FilterInput
+            placeholder="Pesquisar por carro..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <SearchIcon>
+            <FaSearch />
+          </SearchIcon>
+        </FilterInputWrapper>
+      </Header>
 
       <Table>
         <thead>
@@ -62,22 +83,19 @@ const AdminOrders = () => {
                 R$ {order.total.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
               </TableCell>
               <TableCell>
-                {order.OrderItems.map((item) => (
-                  <div key={item.id} style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
-                    <img
-                      src={item.Product.imageUrl || "/placeholder.jpg"}
-                      alt={item.Product.title}
-                      style={{ width: 60, height: 40, objectFit: "cover", marginRight: 8 }}
-                    />
-                    <span>{item.Product.title} x{item.quantity}</span>
-                  </div>
-                ))}
+                <ProductsContainer>
+                  {order.OrderItems.map((item) => (
+                    <ProductItem key={item.id}>
+                      <img src={item.Product.imageUrl || "/placeholder.jpg"} alt={item.Product.title} />
+                      <span>{item.Product.title} x{item.quantity}</span>
+                    </ProductItem>
+                  ))}
+                </ProductsContainer>
               </TableCell>
             </TableRow>
           ))}
         </tbody>
       </Table>
-
     </Wrapper>
   );
 };

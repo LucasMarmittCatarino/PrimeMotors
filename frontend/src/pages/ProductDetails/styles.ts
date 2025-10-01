@@ -7,20 +7,6 @@ export const Wrapper = styled.div`
   font-family: 'Arial', sans-serif;
 `;
 
-export const BackButton = styled.button`
-  background: transparent;
-  border: none;
-  color: #007bff;
-  font-size: 16px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  transition: all 0.2s;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 export const TopSection = styled.div`
   display: flex;
   flex-wrap: wrap;
