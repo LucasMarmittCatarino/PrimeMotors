@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getProductById, type Product } from "~/services/product.api";
 import { addToCart } from "~/services/cart.api";
 import {
-  BackButton,
   Description,
   Price,
   ProductImage,

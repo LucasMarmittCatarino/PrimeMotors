@@ -19,13 +19,13 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 
-const PORT = process.env.PORT || 4000;
+const PORT = 3000;
 
 (async () => {
   try {
     // Para dev: sincroniza models com o DB
   await sequelize.sync();
-    app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+    app.listen(PORT, "0.0.0.0", () => console.log(`Server running on http://localhost:${PORT}`));
   } catch (err) {
     console.error('Erro ao iniciar', err);
   }
