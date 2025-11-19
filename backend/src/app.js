@@ -19,7 +19,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 (async () => {
   try {
