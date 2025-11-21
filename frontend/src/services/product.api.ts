@@ -8,6 +8,11 @@ export interface Product {
   price: number;
   stock: number;
   imageUrl?: string;
+  supplierId: number | null;
+  Supplier?: {
+    id: number;
+    name: string;
+  }
 }
 
 // Buscar todos os produtos

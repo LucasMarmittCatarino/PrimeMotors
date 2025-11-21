@@ -4,6 +4,7 @@ const Product = require('./product');
 const CartItem = require('./cartItem');
 const Order = require('./order');
 const OrderItem = require('./orderItem');
+const Supplier = require('./supplier');
 
 // associações do carrinho: User <-> CartItem <-> Product
 User.hasMany(CartItem, { onDelete: 'CASCADE' });
@@ -21,4 +22,8 @@ OrderItem.belongsTo(Order);
 Product.hasMany(OrderItem);
 OrderItem.belongsTo(Product);
 
-module.exports = { sequelize, User, Product, CartItem, Order, OrderItem };
+// Relacionamento fornecedores <-> produtos
+Product.belongsTo(Supplier, { foreignKey: 'supplierId' });
+Supplier.hasMany(Product, { foreignKey: 'supplierId', onDelete: 'CASCADE' });
+
+module.exports = { sequelize, User, Product, CartItem, Order, OrderItem, Supplier };

@@ -68,12 +68,13 @@ const MainHeader = () => {
             {/* Link para admin */}
             
             <HeaderLabels onClick={() => navigate("/about")}>Sobre Nós</HeaderLabels>
-            {user?.role === "admin" && (
-                <HeaderLabels onClick={() => navigate("/admin-orders")}>Relatórios</HeaderLabels>
-            )}
-            {user?.role === "admin" && (
-                <HeaderLabels onClick={() => navigate("/create-admin")}>Criar Admin</HeaderLabels>
 
+            {user?.role === "admin" && (
+                <>
+                    <HeaderLabels onClick={() => navigate("/suppliers")}>Fornecedores</HeaderLabels>
+                    <HeaderLabels onClick={() => navigate("/admin-orders")}>Relatórios</HeaderLabels>
+                    <HeaderLabels onClick={() => navigate("/create-admin")}>Criar Admin</HeaderLabels>
+                </>
             )}
             
 

@@ -10,4 +10,5 @@ services:
     env_file:
       - .env
     volumes:
-      - ./database.sqlite:/app/database.sqlite
+      - ./src:/app/src
+      - ./db:/app/db

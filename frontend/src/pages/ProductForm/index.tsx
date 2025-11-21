@@ -14,22 +14,44 @@ import {
 } from "./styles";
 
 import { createProduct, getProductById, updateProduct } from "~/services/product.api";
+import { getSuppliers, type Supplier } from "~/services/supplier.api";
+
+interface ProductFormData {
+  title: string;
+  description: string;
+  price: number;
+  stock: number;
+  imageUrl: string;
+  supplierId: number | null;
+}
 
 const ProductForm = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEditing = Boolean(id);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProductFormData>({
     title: "",
     description: "",
     price: 0, // número puro (pra enviar pro back)
     stock: 0,
     imageUrl: "",
+    supplierId: null,
   });
 
   // estado separado só para exibir no input de preço
   const [priceInput, setPriceInput] = useState("R$ 0,00");
+
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+
+  const getAllSuppliers = async () => {
+    const res = await getSuppliers();
+    setSuppliers(res);
+  };
+
+  useEffect(() => {
+    getAllSuppliers();
+  }, []);
 
   useEffect(() => {
     if (isEditing && id) {
@@ -40,6 +62,7 @@ const ProductForm = () => {
           price: data.price,
           stock: data.stock,
           imageUrl: data.imageUrl || "",
+          supplierId: data.supplierId || null,
         });
 
         setPriceInput(
@@ -140,17 +163,47 @@ const ProductForm = () => {
           <Label>URL da Imagem</Label>
         </InputWrapper>
 
+        <InputWrapper>
+          <select
+            name="supplierId"
+            value={formData.supplierId ?? ""}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                supplierId: Number(e.target.value) || null,
+              }))
+            }
+            style={{
+              width: "100%",
+              padding: "12px",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              background: "white",
+              fontSize: "16px",
+            }}
+          >
+            <option value="">
+              Selecione um fornecedor
+            </option>
+
+            {suppliers.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </InputWrapper>
+
         <SubmitButton type="submit">
           {isEditing ? "Salvar alterações" : "Criar Produto"}
         </SubmitButton>
         <CancelButton type="button" onClick={() => navigate(-1)}>
-            Cancelar
+          Cancelar
         </CancelButton>
       </FormWrapper>
     </PageWrapper>
 
   );
 };
-
 
 export default ProductForm;

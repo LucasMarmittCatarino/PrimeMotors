@@ -13,6 +13,8 @@ import AdminOrders from "~/pages/AdminOrders";
 import ProtectedRoute from "./ProtectedRoute";
 import CreateAdmin from "~/pages/CreateAdmin";
 import PurchaseHistory from "~/pages/PurchaseHistory";
+import Suppliers from "~/pages/Suppliers";
+import SupplierForm from "~/pages/SupplierForm";
 
 function AppRoutes() {
   return (
@@ -29,7 +31,7 @@ function AppRoutes() {
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/cart" element={<ProtectedRoute><Cart/></ProtectedRoute>} />
           <Route path="/purchase-history" element={<ProtectedRoute><PurchaseHistory /></ProtectedRoute>} />
-          
+          <Route path="/suppliers" element={<Suppliers />} />
         </Route>
 
         {/* Rotas sem Header */}
@@ -37,6 +39,8 @@ function AppRoutes() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/products/new" element={<ProtectedRoute><ProductForm /></ProtectedRoute>} />
         <Route path="/products/:id/edit" element={<ProtectedRoute><ProductForm /></ProtectedRoute>} />
+        <Route path="/suppliers/new" element={<ProtectedRoute><SupplierForm /></ProtectedRoute>} />
+        <Route path="/suppliers/:id/edit" element={<ProtectedRoute><SupplierForm /></ProtectedRoute>} />
       </Routes>
     </Router>
   );

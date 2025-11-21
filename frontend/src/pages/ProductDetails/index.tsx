@@ -74,6 +74,7 @@ const ProductDetails = () => {
               R$ {product.price.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </Price>
             <Stock>Estoque: {product.stock}</Stock>
+            <Stock>Fornecedor: {product.Supplier?.name || "--"}</Stock>
           </PriceStockWrapper>
           <ActionButton onClick={handleAddToCart}>Comprar Agora</ActionButton>
         </InfoBox>
