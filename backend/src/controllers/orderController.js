@@ -21,7 +21,7 @@ const checkout = async (req, res) => {
       total += ci.quantity * ci.Product.price;
     }
 
-    const order = await Order.create({ UserId: req.user.id, total }, { transaction: t });
+    const order = await Order.create({ UserId: req.user.id, total, status: 'completed' }, { transaction: t });
 
     for (const ci of cartItems) {
       await OrderItem.create({

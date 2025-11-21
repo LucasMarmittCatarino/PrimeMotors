@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { getAllOrders, type Order } from "~/services/order.api";
 import {
@@ -21,13 +21,17 @@ const AdminOrders = () => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const totalSold = useMemo(() => (
+    orders.reduce((acc, order) => acc + order.total, 0)
+  ), [orders]);
+
   useEffect(() => {
     const loadOrders = async () => {
       try {
         const data = await getAllOrders();
         setOrders(data);
       } catch (err) {
-        console.error("Erro ao carregar pedidos:", err);
+        console.error("Erro ao carregar compras:", err);
       } finally {
         setLoading(false);
       }
@@ -41,12 +45,12 @@ const AdminOrders = () => {
     )
   );
 
-  if (loading) return <Wrapper>Carregando pedidos...</Wrapper>;
+  if (loading) return <Wrapper>Carregando compras...</Wrapper>;
 
   return (
     <Wrapper>
       <Header>
-        <ReportTitle>Pedidos</ReportTitle>
+        <ReportTitle>Compras</ReportTitle>
         <FilterInputWrapper>
           <FilterInput
             placeholder="Pesquisar por carro..."
@@ -96,6 +100,10 @@ const AdminOrders = () => {
           ))}
         </tbody>
       </Table>
+
+      <div style={{ marginTop: 20 }}>
+        Total vendido: R$ {totalSold.toLocaleString("pt-BR", { minimumFractionDigits: 2 })} em {orders.length} vendas
+      </div>
     </Wrapper>
   );
 };
