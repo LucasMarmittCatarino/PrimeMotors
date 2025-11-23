@@ -1,4 +1,5 @@
 const { Order, OrderItem, CartItem, Product, User } = require('../models');
+const { Op, fn, col, literal } = require('sequelize');
 
 const sequelize = require('../config/database');
 
@@ -65,7 +66,6 @@ const getMyOrders = async (req, res) => {
   }
 };
 
-
 const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.findAll({
@@ -87,4 +87,57 @@ const getAllOrders = async (req, res) => {
   }
 };
 
-module.exports = { checkout, getMyOrders, getAllOrders };
+const getHomeAdminInfo = async (req, res) => {
+  const today = new Date();
+  const month = today.getMonth();
+  const year = today.getFullYear();
+
+  // início e fim do mês atual
+  const startDate = new Date(year, month, 1);
+  const endDate = new Date(year, month + 1, 0, 23, 59, 59);
+
+  try {
+    // Total de vendas no mês
+    const totalSalesData = await OrderItem.findAll({
+      attributes: [[fn('SUM', col('quantity')), 'totalItemsSold']],
+      include: [{
+        model: Order,
+        attributes: [],
+        where: { createdAt: { [Op.between]: [startDate, endDate] } }
+      }]
+    });
+    const totalItemsSold = totalSalesData[0]?.get('totalItemsSold') || 0;
+
+    // Produto mais vendido no período (todos os atributos)
+    const topProductData = await OrderItem.findAll({
+      attributes: [
+        [fn('SUM', col('quantity')), 'totalSold']
+      ],
+      include: [
+        { model: Order, attributes: [], where: { createdAt: { [Op.between]: [startDate, endDate] } } },
+        { model: Product } // <-- remove attributes para pegar todos
+      ],
+      group: ['ProductId', 'Product.id'],
+      order: [[literal('totalSold'), 'DESC']],
+      limit: 1
+    });
+
+    const topProduct = topProductData.length ? topProductData[0] : null;
+
+    // Produtos com baixo estoque (todos os atributos)
+    const lowStockProducts = await Product.findAll({
+      where: { stock: { [Op.lte]: 5 } }
+    });
+
+    return res.json({
+      totalItemsSold,
+      topProduct,
+      lowStockProducts
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Erro ao carregar informações' });
+  }
+};
+
+module.exports = { checkout, getMyOrders, getAllOrders, getHomeAdminInfo };

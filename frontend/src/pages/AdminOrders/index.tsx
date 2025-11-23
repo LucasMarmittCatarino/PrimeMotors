@@ -31,7 +31,7 @@ const AdminOrders = () => {
         const data = await getAllOrders();
         setOrders(data);
       } catch (err) {
-        console.error("Erro ao carregar compras:", err);
+        console.error("Erro ao carregar vendas:", err);
       } finally {
         setLoading(false);
       }
@@ -45,12 +45,12 @@ const AdminOrders = () => {
     )
   );
 
-  if (loading) return <Wrapper>Carregando compras...</Wrapper>;
+  if (loading) return <Wrapper>Carregando vendas...</Wrapper>;
 
   return (
     <Wrapper>
       <Header>
-        <ReportTitle>Compras</ReportTitle>
+        <ReportTitle>Vendas</ReportTitle>
         <FilterInputWrapper>
           <FilterInput
             placeholder="Pesquisar por carro..."

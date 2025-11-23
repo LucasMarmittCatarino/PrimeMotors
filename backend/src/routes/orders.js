@@ -11,5 +11,6 @@ router.get('/my-orders', orderController.getMyOrders);
 
 // admin
 router.get('/', requireRole('admin'), orderController.getAllOrders);
+router.get('/admin-home-info', requireRole('admin'), orderController.getHomeAdminInfo);
 
 module.exports = router;
