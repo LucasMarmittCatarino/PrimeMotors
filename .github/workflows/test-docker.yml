@@ -17,5 +17,8 @@ jobs:
       - name: Build da imagem Docker (pasta backend)
         run: docker build -t primemotors-api-test ./backend
 
+      - name: Running seed to create admin
+        run: docker-compose exec api node backend/src/seed.js
+
       - name: Rodar testes dentro do container
         run: docker run --rm primemotors-api-test npm test
