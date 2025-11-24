@@ -21,14 +21,4 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/suppliers', supplierRoutes);
 
-const PORT = process.env.PORT;
-
-(async () => {
-  try {
-    // Para dev: sincroniza models com o DB
-  await sequelize.sync();
-    app.listen(PORT, "0.0.0.0", () => console.log(`Server running on http://localhost:${PORT}`));
-  } catch (err) {
-    console.error('Erro ao iniciar', err);
-  }
-})();
+module.exports = app;
