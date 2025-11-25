@@ -17,8 +17,9 @@ jobs:
       - name: Build da imagem Docker (pasta backend)
         run: docker build -t primemotors-api-test ./backend
 
-      - name: Rodar seed dentro do container
-        run: docker run --rm primemotors-api-test node src/seed.js
-
-      - name: Rodar testes dentro do container
-        run: docker run --rm primemotors-api-test npm test
+      - name: Rodar seed + jest no mesmo container
+        run: |
+          docker run --rm primemotors-api-test sh -c "
+            node src/seed.js &&
+            npm test
+          "
